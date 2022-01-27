@@ -40,12 +40,15 @@ while true; do
             read binary
             echo -e "\n[*] Finding matches for binary: $binary\n"
             while read linea; do
-                ln=$(echo $linea | awk '{print $1}' FS="/")
-                if [[ $ln == $binary ]]; then
-                    fn=$(echo $linea | awk '{print $2}' FS="/")
-                    echo -e "\t$fn"
+                bn=$(echo $linea | awk '{print $1}' FS="/")
+                fn=$(echo $linea | awk '{print $2}' FS="/")
+                if [[ $bn == $binary ]]; then
+                    content=$(curl -s https://gtfobins.github.io/gtfobins/$bn/$fn | html2text)
+                    echo -e "\t$content"
+                    exit 0
                 fi
             done < /tmp/gtfobins_list
+
             tput cnorm
             exit 0
         ;;                    
